@@ -53,7 +53,7 @@ const handleRegister=()=>{}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500'
-              placeholder='Create a password'
+              placeholder='Create a password for account'
               required
             />
           </div>
