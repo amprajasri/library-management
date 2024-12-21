@@ -1,18 +1,49 @@
 import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Register } from './Register' 
+import {Register}  from './Register' 
+import axios from 'axios';
+import { useSnackbar } from 'notistack'
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  const handleLogin=()=>{}
+  const { enqueueSnackbar } = useSnackbar()
+ 
   const handleRegisterRedirect=()=>{
+    
     navigate('/Register');
   }
+
+const handleLogin = (e) => {
+e.preventDefault()
+setError('')
+axios.post('http://localhost:8888/Login',{username,password})
+.then(result =>{
+  if (result?.data?.message === 'success') {
+    // Successful login
+    sessionStorage.setItem("userId",result.data?.data?._id)
+    enqueueSnackbar('login successfull ', {variant:'success'})
+    navigate('/Home');
+  } else if (result?.data?.message === 'user not found') {
+    setError('Username does not exist');
+  } else if (result?.data?.message === 'the password is incorrect') {
+    setError('Password is incorrect');
+  } else {
+    setError('Login failed. Please try again.');
+  }
+
+})
+.catch(err=>{
+  console.log(err)
+  setError('An error occurred during login. Please try again.');}
+
+)
+
+}
+ 
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
@@ -65,6 +96,7 @@ export const Login = () => {
           <div className='flex items-center justify-between'>
             <button
               type='submit'
+              
               className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             >
               Sign In
@@ -85,3 +117,4 @@ export const Login = () => {
 }
 
 
+export default Login

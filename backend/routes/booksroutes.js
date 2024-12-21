@@ -7,6 +7,7 @@ router.post('/',async(request,response) =>
       try{
         console.log(request.body.title+request.body.author+request.body.publishyear);
         if(
+          !request.body.userId||
           !request.body.title||
           !request.body.author||
           !request.body.publishyear
@@ -15,6 +16,7 @@ router.post('/',async(request,response) =>
           return response.status(400).send({message:"missing values,send all required feilds"})
         }
         const newbook = {
+          userId:request.body.userId,
           title:request.body.title,
           author:request.body.author,
           publishyear:request.body.publishyear
@@ -29,8 +31,17 @@ router.post('/',async(request,response) =>
     })
   
 router.get('/',async (request,response)=>{
+
       try{
-          const book = await Book.find({})
+        console.log('Full Request Query:', request.query);
+        console.log('Full Request Body:', request.body);
+    
+        const { userId } = request.query;
+      if (!userId) {
+        return response.status(400).json({ message: 'User ID is required' });
+      }
+  
+          const book = await Book.find({userId:userId})
           console.log(book.length)
           return response.status(201).json({count:book.length,
             data:book
@@ -58,6 +69,8 @@ router.put('/:id',async(request,response) =>
       {
         try{
           if(
+            
+            !request.body.userId||
             !request.body.title||
             !request.body.author||
             !request.body.publishyear

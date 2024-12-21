@@ -12,8 +12,10 @@ export const CreateBook = () => {
   const [loading,setLoading] = useState(false)
   const navigate= useNavigate();
   const { enqueueSnackbar } = useSnackbar()
+  const userId = sessionStorage.getItem('userId');
   const handleSaveBook =() =>{
     const data ={
+      userId,
       title,
       author,
       publishyear
@@ -24,7 +26,7 @@ export const CreateBook = () => {
     .then(()=>{
       setLoading(false);
       enqueueSnackbar('book created successfully ', {variant:'success'})
-      navigate('/');
+      navigate('/Home');
    })
    .catch((error)=>{
  setLoading(false);

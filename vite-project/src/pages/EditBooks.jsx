@@ -8,6 +8,7 @@ export const EditBooks = () => {
   const [title,setTitle] = useState('');
   const [author,setAuthor] = useState('');
   const [publishyear,setPublishYear]=useState('')
+  const [userId,setUserId]=useState('')
   const [loading,setLoading] = useState(false)
   const navigate= useNavigate();
   const {enqueueSnackbar} = useSnackbar()
@@ -16,6 +17,7 @@ export const EditBooks = () => {
     setLoading(true)
     axios.get(`http://localhost:8888/books/${id}`)
     .then((response)=>{
+      setUserId(response.data.userId)
       setTitle(response.data.title)
       setAuthor(response.data.author)
       setPublishYear(response.data.publishyear)
@@ -30,6 +32,7 @@ export const EditBooks = () => {
   },[])
   const handleEditBook =() =>{
     const data ={
+      userId,
       title,
       author,
       publishyear
@@ -40,7 +43,7 @@ export const EditBooks = () => {
     .then(()=>{
       setLoading(false);
       enqueueSnackbar('book edited successfully :)', {variant:'success'})
-      navigate('/');
+      navigate('/Home');
    })
    .catch((error)=>{
  setLoading(false);

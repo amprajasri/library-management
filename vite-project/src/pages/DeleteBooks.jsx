@@ -17,7 +17,7 @@ const handleDeleteBook =() =>{
   .then(()=>{
     setLoading(false);
     enqueueSnackbar('book deleted successfully', {variant:'success'})
-    navigate('/');
+    navigate('/Home');
  })
  .catch((error)=>{
 setLoading(false);

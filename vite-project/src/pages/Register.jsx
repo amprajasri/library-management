@@ -1,5 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import  {Login}  from './Signin';
+import axios from 'axios';
+import { useSnackbar } from 'notistack'
 
 export const Register = () => {
   const [username, setUsername] = useState('');
@@ -7,8 +11,37 @@ export const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar()
+const handleRegister=(e)=>{
+  e.preventDefault();
+  
+  // Ensure matching passwords
+  if (password !== confirmPassword) {
+    setError('Passwords do not match');
+    return;
+  }
 
-const handleRegister=()=>{}
+  // Use the correct backend port
+  axios.post('http://localhost:8888/Register', {
+    username,
+    password
+  })
+  .then(result => {
+    console.log(result);
+    enqueueSnackbar('account created successfully ', {variant:'success'})
+    navigate('/'); // Redirect to login
+  })
+  .catch(err => {
+    console.error('Registration error:', err.response);
+    
+    // Check for specific username exists error
+    if (err.response && err.response.data.message === 'Username already exists') {
+      setError('Username is already taken. Please choose a different username.');
+    } else {
+      setError('Registration failed. Please try again.');
+    }
+  });
+}
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
@@ -86,7 +119,7 @@ const handleRegister=()=>{}
             
             <button
               type='button'
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/')}
               className='inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800'
             >
               Back to Login
