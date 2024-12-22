@@ -11,12 +11,12 @@ app.use(express.json()); // Allows express to use JSON body middleware for parsi
 
 const corsOptions = {
   origin: [
-    'https://library-management-frontend-beta.vercel.app',
-    'https://library-management-frontend-3dlgkzcxf.vercel.app' // Add your frontend URL here
+    'https://library-management-frontend-3dlgkzcxf.vercel.app',
+    // Add any other frontend URLs you might use
   ],
-  credentials: true, // Allow credentials
-  methods: 'GET, DELETE, PATCH, POST, PUT', // Allowed methods
-  allowedHeaders: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' // Allowed headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 };
 
 app.use(cors(corsOptions)); // Use CORS with specified options
