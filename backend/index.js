@@ -21,7 +21,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Use CORS with specified options
 
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
+server.timeout = 120000
 app.get('/', (request, response) => {
   console.log(request);
   return response.status(200).send('Welcome To MERN Stack Tutorial'); // Changed status code to 200
