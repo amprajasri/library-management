@@ -25,6 +25,7 @@ axios.post('http://localhost:8888/Login',{username,password})
   if (result?.data?.message === 'success') {
     // Successful login
     sessionStorage.setItem("userId",result.data?.data?._id)
+    sessionStorage.setItem("username", username)
     enqueueSnackbar('login successfull ', {variant:'success'})
     navigate('/Home');
   } else if (result?.data?.message === 'user not found') {
