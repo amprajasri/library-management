@@ -11,11 +11,19 @@ app.use(express.json()); // Allows express to use JSON body middleware for parsi
 
 // CORS configuration
 const corsOptions = {
-  origin: '*', // Allow all origins (for testing only)
-  credentials: true, // Allow credentials
-  methods: 'GET, DELETE, PATCH, POST, PUT', // Allowed methods
-  allowedHeaders: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' // Allowed headers
+  origin: (origin, callback) => {
+    if (!origin || origin.includes('library-management-frontend')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: 'GET, DELETE, PATCH, POST, PUT',
+  allowedHeaders: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
 };
+
+
 
 app.use(cors(corsOptions)); // Use CORS with specified options
 
