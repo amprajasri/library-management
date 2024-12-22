@@ -9,19 +9,18 @@ import UserModel from './models/user.js';
 const app = express();
 app.use(express.json()); // Allows express to use JSON body middleware for parsing request body
 
-// CORS configuration
 const corsOptions = {
-  origin: '*', // Allow all origins
-  credentials: false, // Do not allow credentials
+  origin: [
+    'https://library-management-frontend-beta.vercel.app',
+    'https://library-management-frontend-3dlgkzcxf.vercel.app' // Add your frontend URL here
+  ],
+  credentials: true, // Allow credentials
   methods: 'GET, DELETE, PATCH, POST, PUT', // Allowed methods
   allowedHeaders: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' // Allowed headers
 };
 
-app.options('*', cors(corsOptions)); // Enable preflight for all routes
-
-
-
 app.use(cors(corsOptions)); // Use CORS with specified options
+
 
 app.get('/', (request, response) => {
   console.log(request);
