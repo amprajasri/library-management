@@ -17,33 +17,31 @@ export const Login = () => {
     navigate('/Register');
   }
 
-const handleLogin =async (e) => {
-  e.preventDefault();
-  setError('');
-  try {
-    const response = await axios.post(
-      'https://library-management-backend-blond.vercel.app/Login',
-      { username, password },
-      {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    );
-
-    if (response?.data?.message === 'Success') {
-      sessionStorage.setItem("userId", response.data?.data?._id);
-      sessionStorage.setItem("username", username);
-      enqueueSnackbar('Login successful', {variant: 'success'});
-      navigate('/Home');
-    } else {
-      setError(response.data?.message || 'Login failed. Please try again.');
-    }
-  } catch (err) {
-    console.error('Login error:', err);
-    setError(err.response?.data?.message || 'An error occurred during login.');
+const handleLogin = (e) => {
+e.preventDefault()
+setError('')
+axios.post('http://localhost:8888/Login',{username,password})
+.then(result =>{
+  if (result?.data?.message === 'success') {
+    // Successful login
+    sessionStorage.setItem("userId",result.data?.data?._id)
+    sessionStorage.setItem("username", username)
+    enqueueSnackbar('login successfull ', {variant:'success'})
+    navigate('/Home');
+  } else if (result?.data?.message === 'user not found') {
+    setError('Username does not exist');
+  } else if (result?.data?.message === 'the password is incorrect') {
+    setError('Password is incorrect');
+  } else {
+    setError('Login failed. Please try again.');
   }
+
+})
+.catch(err=>{
+  console.log(err)
+  setError('An error occurred during login. Please try again.');}
+
+)
 
 }
  
