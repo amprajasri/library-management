@@ -59,16 +59,24 @@ app.post("/Login", (req, res) => {
     });
 });
 
+let serverStarted = false;
+
 mongoose
-  .connect(mongoDBUrl)
+  .connect(mongoDBUrl, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000
+  })
   .then(() => {
     console.log('Connected successfully to database');
-    app.listen(PORT, () => {
-      console.log('Listening at the port: ' + PORT);
-    });
+    if (!serverStarted) {
+      app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+        serverStarted = true;
+      });
+    }
   })
   .catch((error) => {
-    console.log(error);
+    console.error('Database connection error:', error);
   });
-
 export default app;
