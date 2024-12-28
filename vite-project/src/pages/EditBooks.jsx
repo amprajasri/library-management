@@ -15,7 +15,7 @@ export const EditBooks = () => {
   const {id} = useParams()
   useEffect(()=>{
     setLoading(true)
-    axios.get(`http://localhost:8888/books/${id}`)
+    axios.get(`https://library-management-backend-blond.vercel.app/books/${id}`)
     .then((response)=>{
       setUserId(response.data.userId)
       setTitle(response.data.title)
