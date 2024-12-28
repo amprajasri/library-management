@@ -10,10 +10,15 @@ const app = express();
 
 
 
+// Configure CORS for Vercel deployment
 app.use(cors({
-  origin: ['https://library-management-frontend-beta.vercel.app'],
+  origin: [
+    'https://library-management-frontend-beta.vercel.app',
+    'http://localhost:8888', // Keep local development working
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true // Enable if you're using cookies/sessions
 }));
 app.use(express.json()); // Allows express to use JSON body middleware for parsing request body
 
