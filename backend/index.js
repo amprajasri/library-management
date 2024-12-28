@@ -7,22 +7,7 @@ import cors from 'cors';
 import UserModel from './models/user.js';
 
 const app = express();
-
-
-
-app.options('*', cors());
-
-// Configure CORS with specific options
-const corsOptions = {
-  origin: 'https://library-management-frontend-beta.vercel.app',
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200,
-  preflightContinue: true,
-  credentials: true
-};
-
-app.use(cors(corsOptions));
+app.use(cors())
 app.use(express.json()); // Allows express to use JSON body middleware for parsing request body
 
 app.get('/', (request, response) => {
