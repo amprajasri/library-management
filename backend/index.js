@@ -10,7 +10,11 @@ const app = express();
 
 
 
-app.use(cors()); // Use CORS with specified options
+app.use(cors({
+  origin: ['https://library-management-frontend-beta.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json()); // Allows express to use JSON body middleware for parsing request body
 
 app.get('/', (request, response) => {
