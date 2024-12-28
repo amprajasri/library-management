@@ -8,13 +8,9 @@ import UserModel from './models/user.js';
 
 const app = express();
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
-server.timeout = 120000;
 
-app.use(cors); // Use CORS with specified options
+app.use(cors()); // Use CORS with specified options
 app.use(express.json()); // Allows express to use JSON body middleware for parsing request body
 
 app.get('/', (request, response) => {

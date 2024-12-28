@@ -17,34 +17,45 @@ export const Login = () => {
     navigate('/Register');
   }
 
-const handleLogin = (e) => {
-e.preventDefault()
-setError('')
-axios.post('http://localhost:8888/Login',{username,password})
-.then(result =>{
-  if (result?.data?.message === 'success') {
-    // Successful login
-    sessionStorage.setItem("userId",result.data?.data?._id)
-    sessionStorage.setItem("username", username)
-    enqueueSnackbar('login successfull ', {variant:'success'})
-    navigate('/Home');
-  } else if (result?.data?.message === 'user not found') {
-    setError('Username does not exist');
-  } else if (result?.data?.message === 'the password is incorrect') {
-    setError('Password is incorrect');
-  } else {
-    setError('Login failed. Please try again.');
-  }
-
-})
-.catch(err=>{
-  console.log(err)
-  setError('An error occurred during login. Please try again.');}
-
-)
-
-}
- 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError('');
+    console.log("hello");
+  
+    axios.post('http://localhost:8888/Login', { username, password })
+      .then(result => {
+        console.log('Server response:', result.data); // Debug log
+        
+        if (result?.data?.message === 'Success') { // Note the capital 'S'
+          sessionStorage.setItem("userId", result.data?.data?._id);
+          sessionStorage.setItem("username", username);
+          enqueueSnackbar('login successful', {variant: 'success'});
+          navigate('/Home');
+        } else {
+          // Show the exact error message from server
+          setError(result.data.message);
+        }
+      })
+      .catch(err => {
+        // Log the full error response
+        console.log('Error response:', err.response?.data);
+        
+        // Use the server's error message if available
+        if (err.response?.data?.message) {
+          setError(err.response.data.message);
+        } else if (err.response?.status === 400) {
+          if (err.response.data === 'User not found') {
+            setError('Username does not exist');
+          } else if (err.response.data === 'The password is incorrect') {
+            setError('Password is incorrect');
+          } else {
+            setError(err.response.data);
+          }
+        } else {
+          setError('An error occurred during login. Please try again.');
+        }
+      });
+  };
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
