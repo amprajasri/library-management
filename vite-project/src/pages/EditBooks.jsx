@@ -39,7 +39,7 @@ export const EditBooks = () => {
     };
     setLoading(true);
     axios
-    .put(`http://localhost:8888/books/${id}`,data)
+    .put(`https://library-management-backend-blond.vercel.app/${id}`,data)
     .then(()=>{
       setLoading(false);
       enqueueSnackbar('book edited successfully :)', {variant:'success'})
