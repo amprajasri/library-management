@@ -11,11 +11,12 @@ export const EditBooks = () => {
   const [userId,setUserId]=useState('')
   const [loading,setLoading] = useState(false)
   const navigate= useNavigate();
+  
   const {enqueueSnackbar} = useSnackbar()
   const {id} = useParams()
   useEffect(()=>{
     setLoading(true)
-    axios.get(`http://localhost:8888/books/${id}`)
+    axios.get(`https://library-management-backend-blond.vercel.app/books/${id}`)
     .then((response)=>{
       setUserId(response.data.userId)
       setTitle(response.data.title)
@@ -39,7 +40,7 @@ export const EditBooks = () => {
     };
     setLoading(true);
     axios
-    .put(`http://localhost:8888/books/${id}`,data)
+    .put(`https://library-management-backend-blond.vercel.app/books/${id}`,data)
     .then(()=>{
       setLoading(false);
       enqueueSnackbar('book edited successfully :)', {variant:'success'})

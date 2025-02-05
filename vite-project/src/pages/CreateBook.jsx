@@ -22,7 +22,7 @@ export const CreateBook = () => {
     };
     setLoading(true);
     axios
-    .post('http://localhost:8888/books',data)
+    .post('https://library-management-backend-blond.vercel.app/books',data)
     .then(()=>{
       setLoading(false);
       enqueueSnackbar('book created successfully ', {variant:'success'})
